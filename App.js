@@ -2,8 +2,8 @@ import * as React from "react";
 import { Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Login from "./components/Login/Login";
-import Profile from "./components/Profile/Profile";
+import Login from "./components/Login/login";
+import Profile from "./components/Profile/profile";
 import Home from "./components/Home/Home";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
