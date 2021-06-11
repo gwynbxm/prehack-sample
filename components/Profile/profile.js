@@ -77,7 +77,7 @@ export default function Profile() {
 
       <TouchableOpacity
         style={styles.saveProfileBtn}
-        onPress={() => saveNewUser()}
+        onPress={() => updateUser()}
       >
         <Text style={styles.saveBtnTitle}>SAVE</Text>
       </TouchableOpacity>
