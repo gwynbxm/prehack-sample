@@ -29,7 +29,22 @@ export default function Profile() {
     setUserData({ ...userData, [name]: value });
   };
 
-  const updateUser = async () => {};
+  const updateUser = async () => {
+    firebase
+      .database()
+      .ref("Accounts/" + "-MbuZgTDSHv8D-W65UBa")
+      .update({
+        firstName: userData.firstName,
+        email: userData.email,
+        username: userData.username,
+      });
+    alert("updated user details!");
+  };
+
+  const deleteUser = async () => {
+    await firebase.database().ref("/Accounts/-MbvBl1kkDbGNl6IR8nC").set(null);
+    alert("deleted user");
+  };
 
   return (
     <View style={styles.container}>
@@ -53,6 +68,7 @@ export default function Profile() {
         <TextInput
           placeholder="First Name"
           style={styles.textInput}
+          value={userData.firstName}
           onChangeText={(value) => handleChangeText("firstName", value)}
         ></TextInput>
       </View>
@@ -62,6 +78,7 @@ export default function Profile() {
         <TextInput
           placeholder="Username"
           style={styles.textInput}
+          value={userData.username}
           onChangeText={(value) => handleChangeText("username", value)}
         ></TextInput>
       </View>
@@ -71,6 +88,7 @@ export default function Profile() {
           placeholder="Email Address"
           style={styles.textInput}
           keyboardType="email-address"
+          value={userData.email}
           onChangeText={(value) => handleChangeText("email", value)}
         ></TextInput>
       </View>
@@ -80,6 +98,12 @@ export default function Profile() {
         onPress={() => updateUser()}
       >
         <Text style={styles.saveBtnTitle}>SAVE</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.deleteProfileBtn}
+        onPress={() => deleteUser()}
+      >
+        <Text style={styles.deleteBtnTitle}>DELETE</Text>
       </TouchableOpacity>
       <Text style={styles.errorText}>{errorText}</Text>
     </View>
@@ -135,5 +159,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 10,
     alignItems: "center",
+  },
+  saveBtnTitle: {
+    color: "white",
+  },
+  deleteProfileBtn: {
+    padding: 15,
+    width: "100%",
+    backgroundColor: "red",
+    borderRadius: 10,
+    marginTop: 15,
+    alignItems: "center",
+  },
+  deleteBtnTitle: {
+    color: "white",
   },
 });
