@@ -68,13 +68,6 @@ export default function Profile() {
     console.log(result);
 
     if (!result.cancelled) {
-      // uploadImage(result.uri)
-      //   .then(() => {
-      //     alert("image success");
-      //   })
-      //   .catch((error) => {
-      //     alert(error);
-      //   });
       setImage(result.uri);
     }
   };
