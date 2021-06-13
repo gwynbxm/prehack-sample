@@ -1,26 +1,59 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
-import { useState } from 'react';
-import firebase from 'react-native-firebase';
+import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity, SnapshotViewIOSComponent } from 'react-native';
+import { useState, useEffect } from 'react';
+import firebase from '../../config';
+import { set } from 'react-native-reanimated';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 export default function Profile() {
-
+  
   const [isModify, setisModify] = useState(false);
 
   const updateState = () => {
     setisModify(!isModify);
-  }
+  };
+
+  const [userData, setUserData] = useState({
+    email: "",
+    firstName: "",
+    profilePic: "",
+    username: "",
+  });
+
+  const getUserData = async() => {
+    const id = "key1";
+
+    firebase.database()
+    .ref('/Accounts').orderByKey()
+    .equalTo(id)
+    .on('value', snapshot => {
+      snapshot.forEach(childSnapshot=> {
+        setUserData({
+          email: childSnapshot.val().email,
+          firstName: childSnapshot.val().firstName,
+          profilePic: childSnapshot.val().profilePic,
+          username: childSnapshot.val().username,
+        });
+      });
+    });
+  };
+  
+  useEffect(() => {
+    getUserData()
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text>Profile Page</Text>
       <TextInput editable = {isModify? true : false}
-        underlineColorAndroid = "transparent"
-        style = {styles.input}>Email</TextInput>
-      <TextInput editable = {isModify? true : false} style = {styles.input}>First Name</TextInput>
-      <TextInput editable = {isModify? true : false} style = {styles.input}>Username</TextInput>
+        style = {styles.input} value = {userData.email} ></TextInput>
+      <TextInput editable = {isModify? true : false} style = {styles.input}>{userData.firstName}</TextInput>
+      <TextInput editable = {isModify? true : false} style = {styles.input}>{userData.username}</TextInput>
 
-      <Button onPress = {updateState} title = {isModify? "Click to Save" : "Click to Modify"}></Button>
+      <TouchableOpacity onPress = {updateState}>
+        <Text>{isModify? "Click to Save" : "Click to Modify"}</Text>
+      </TouchableOpacity>
       <StatusBar style="auto" />
     </View>
   );
