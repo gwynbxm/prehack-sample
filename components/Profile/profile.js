@@ -32,7 +32,7 @@ export default function Profile() {
   const [errorText, setErrorText] = useState("");
 
   const getUserData = async() => {
-    const id = "-MbvBl1kkDbGNl6IR8nC";
+    const id = "-MbuZgTDSHv8D-W65UBa";
 
     firebase.database()
     .ref('/Accounts').orderByKey()
@@ -95,7 +95,7 @@ export default function Profile() {
         <FontAwesome name="user-o" color="red" size={20} />
         <TextInput
           editable = {isModify? true : false}
-          placeholder="First Name"
+          placeholder = "First Name"
           style={styles.textInput}
           value={userData.firstName}
           onChangeText={(value) => handleChangeText("firstName", value)}
@@ -128,19 +128,21 @@ export default function Profile() {
         style={styles.saveProfileBtn}
         onPress={() => updateUser()}
       >
-        <Text style={styles.saveBtnTitle}>SAVE</Text>
+        <Text style={styles.BtnTitle}>SAVE</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.deleteProfileBtn}
         onPress={() => deleteUser()}
       >
-        <Text style={styles.deleteBtnTitle}>DELETE</Text>
+        <Text style={styles.BtnTitle}>DELETE</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress = {updateState}>
-        <Text>{isModify? "Click to Save" : "Click to Modify"}</Text>
+      <TouchableOpacity 
+      style = {styles.modifyBtn}
+      onPress = {updateState}>
+        <Text style={styles.BtnTitle}>{isModify? "Click to Save" : "Click to Modify"}</Text>
       </TouchableOpacity>
-      
+
       <Text style={styles.errorText}>{errorText}</Text>
     </View>
   );
@@ -196,9 +198,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignItems: "center",
   },
-  saveBtnTitle: {
-    color: "white",
-  },
+
   deleteProfileBtn: {
     padding: 15,
     width: "100%",
@@ -207,8 +207,18 @@ const styles = StyleSheet.create({
     marginTop: 15,
     alignItems: "center",
   },
-  deleteBtnTitle: {
-    color: "white",
+  
+  BtnTitle: {
+    color: "white"
+  },
+
+  modifyBtn: {
+    padding: 15,
+    width: "100%",
+    backgroundColor: "green",
+    borderRadius: 10,
+    marginTop: 15,
+    alignItems: "center",
   },
 
   input: {
@@ -220,4 +230,5 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: "90%",
   }
+
 });

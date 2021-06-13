@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import * as React from 'react';
 import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -6,15 +5,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Login from './components/Login/login';
 import Profile from './components/Profile/profile';
 import Home from './components/Home/Home'; 
-=======
-import * as React from "react";
-import { Text, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Login from "./components/Login/login";
-import Profile from "./components/Profile/profile";
-import Home from "./components/Home/Home";
->>>>>>> 9472c82a6e3971ff7df2fee51592cac60b7d8f93
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 const Tab = createBottomTabNavigator();
