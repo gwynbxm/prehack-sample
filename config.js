@@ -1,7 +1,9 @@
-import firebase from '@react-native-firebase/app';
+import firebase from 'firebase/app';
+import "firebase/database";
+import "firebase/auth";
 
 //Initialise Firebase
-const firebaseConfig = {
+export const firebaseConfig = {
     apiKey: "AIzaSyAPBRwdWUPomydoB7zDA-lCZ-BNUfDlXM0",
     authDomain: "hackpractise-8219e.firebaseapp.com",
     databaseURL: "https://hackpractise-8219e-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -11,6 +13,5 @@ const firebaseConfig = {
     appId: "1:34075670600:web:ba11008e5d7be540d2007d",
     measurementId: "G-JLXY6RP19X"
   };
-  const firebaseApp = firebase.initializeApp(firebaseConfig);
-
-  export const firbaseAuth = firebaseApp.firbaseAuth();
+firebase.initializeApp(firebaseConfig);
+export default firebase;
