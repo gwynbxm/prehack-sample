@@ -24,6 +24,7 @@ export default function Profile() {
   });
 
   const [isModify, setisModify] = useState(false);
+  const userUid = firebase.auth().currentUser.uid;
 
   const updateState = () => {
     setisModify(!isModify);
@@ -32,13 +33,13 @@ export default function Profile() {
   const [errorText, setErrorText] = useState("");
 
   const getUserData = async () => {
-    const id = "-MbuZgTDSHv8D-W65UBa";
+    // const id = "-MbuZgTDSHv8D-W65UBa";
 
     firebase
       .database()
       .ref("/Accounts")
       .orderByKey()
-      .equalTo(id)
+      .equalTo(userUid)
       .on("value", (snapshot) => {
         snapshot.forEach((childSnapshot) => {
           setUserData({
@@ -62,7 +63,7 @@ export default function Profile() {
   const updateUser = async () => {
     firebase
       .database()
-      .ref("Accounts/" + "-MbuZgTDSHv8D-W65UBa")
+      .ref("Accounts/" + userUid)
       .update({
         firstName: userData.firstName,
         email: userData.email,
@@ -72,10 +73,16 @@ export default function Profile() {
   };
 
   const deleteUser = async () => {
-    await firebase.database().ref("/Accounts/-MbvDYD7bnjI92bRjlwv").set(null);
+    await firebase.database().ref("/Accounts/" + userUid).set(null);
     alert("deleted user");
   };
 
+  const signOut = () =>{
+    firebase.auth()
+    .signOut()
+    .then(() => console.log('User signed out!'));
+  } 
+  
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => {}}>
