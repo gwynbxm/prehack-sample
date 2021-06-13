@@ -12,6 +12,11 @@ web-build/
 # macOS
 .DS_Store
 
+<<<<<<< HEAD
 #database
 database/firebaseDB.js
 ./config.js
+=======
+# firebase
+config.js
+>>>>>>> 9472c82a6e3971ff7df2fee51592cac60b7d8f93

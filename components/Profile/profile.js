@@ -1,19 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity, SnapshotViewIOSComponent } from 'react-native';
-import { useState, useEffect } from 'react';
-import firebase from '../../config';
-import { set } from 'react-native-reanimated';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { StatusBar } from "expo-status-bar";
+import React, { useState, useEffect } from "react";
+import {
+  Alert,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Image,
+} from "react-native";
+
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import firebase from "../../config.js";
 
 export default function Profile() {
-  
-  const [isModify, setisModify] = useState(false);
-
-  const updateState = () => {
-    setisModify(!isModify);
-  };
-
   const [userData, setUserData] = useState({
     email: "",
     firstName: "",
@@ -21,8 +23,16 @@ export default function Profile() {
     username: "",
   });
 
+  const [isModify, setisModify] = useState(false);
+
+  const updateState = () => {
+    setisModify(!isModify);
+  };
+
+  const [errorText, setErrorText] = useState("");
+
   const getUserData = async() => {
-    const id = "key1";
+    const id = "-MbvBl1kkDbGNl6IR8nC";
 
     firebase.database()
     .ref('/Accounts').orderByKey()
@@ -43,18 +53,95 @@ export default function Profile() {
     getUserData()
   }, []);
 
+  const handleChangeText = (name, value) => {
+    setUserData({ ...userData, [name]: value });
+  };
+
+  const updateUser = async () => {
+    firebase
+      .database()
+      .ref("Accounts/" + "-MbuZgTDSHv8D-W65UBa")
+      .update({
+        firstName: userData.firstName,
+        email: userData.email,
+        username: userData.username,
+      });
+    alert("updated user details!");
+  };
+
+  const deleteUser = async () => {
+    await firebase.database().ref("/Accounts/-MbvBl1kkDbGNl6IR8nC").set(null);
+    alert("deleted user");
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Profile Page</Text>
-      <TextInput editable = {isModify? true : false}
-        style = {styles.input} value = {userData.email} ></TextInput>
-      <TextInput editable = {isModify? true : false} style = {styles.input}>{userData.firstName}</TextInput>
-      <TextInput editable = {isModify? true : false} style = {styles.input}>{userData.username}</TextInput>
+      <TouchableOpacity onPress={() => {}}>
+        <View style={styles.dpContainer}>
+          <ImageBackground
+            style={styles.profileDp}
+            imageStyle={{ borderRadius: 100 }}
+            source={{
+              uri: "https://lh3.googleusercontent.com/znytw2BkzEYJv20Xp-0f8TMaopbemaVWLiRirBZ217Hxuo5vgX-KAKZDLdY3VojsYWXvfm5ollyUiAvecuwdNqzJ",
+            }}
+          >
+            <View style={styles.cameraContainer}>
+              <Icon name="camera" size={35} style={styles.cameraIcon} />
+            </View>
+          </ImageBackground>
+        </View>
+      </TouchableOpacity>
+      <View style={styles.action}>
+        <FontAwesome name="user-o" color="red" size={20} />
+        <TextInput
+          editable = {isModify? true : false}
+          placeholder="First Name"
+          style={styles.textInput}
+          value={userData.firstName}
+          onChangeText={(value) => handleChangeText("firstName", value)}
+        ></TextInput>
+      </View>
+
+      <View style={styles.action}>
+        <FontAwesome name="user-o" color="red" size={20} />
+        <TextInput
+          editable = {isModify? true : false}
+          placeholder="Username"
+          style={styles.textInput}
+          value={userData.username}
+          onChangeText={(value) => handleChangeText("username", value)}
+        ></TextInput>
+      </View>
+      <View style={styles.action}>
+        <Icon name="email-outline" size={24} color="red" />
+        <TextInput
+          editable = {isModify? true : false}
+          placeholder="Email Address"
+          style={styles.textInput}
+          keyboardType="email-address"
+          value={userData.email}
+          onChangeText={(value) => handleChangeText("email", value)}
+        ></TextInput>
+      </View>
+
+      <TouchableOpacity
+        style={styles.saveProfileBtn}
+        onPress={() => updateUser()}
+      >
+        <Text style={styles.saveBtnTitle}>SAVE</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.deleteProfileBtn}
+        onPress={() => deleteUser()}
+      >
+        <Text style={styles.deleteBtnTitle}>DELETE</Text>
+      </TouchableOpacity>
 
       <TouchableOpacity onPress = {updateState}>
         <Text>{isModify? "Click to Save" : "Click to Modify"}</Text>
       </TouchableOpacity>
-      <StatusBar style="auto" />
+      
+      <Text style={styles.errorText}>{errorText}</Text>
     </View>
   );
 }
@@ -62,9 +149,66 @@ export default function Profile() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    margin: 30,
+  },
+  dpContainer: {
+    height: 150,
+    width: "100%",
+    margin: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  profileDp: {
+    height: 150,
+    width: 150,
+  },
+
+  cameraContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  cameraIcon: {
+    opacity: 0.7,
+    alignItems: "center",
+  },
+
+  action: {
+    flexDirection: "row",
+    marginTop: 10,
+    marginBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f2f2f2",
+    paddingBottom: 5,
+  },
+
+  textInput: {
+    flex: 1,
+    paddingLeft: 10,
+    color: "black",
+  },
+
+  saveProfileBtn: {
+    padding: 15,
+    width: "100%",
+    backgroundColor: "orange",
+    borderRadius: 10,
+    marginTop: 10,
+    alignItems: "center",
+  },
+  saveBtnTitle: {
+    color: "white",
+  },
+  deleteProfileBtn: {
+    padding: 15,
+    width: "100%",
+    backgroundColor: "red",
+    borderRadius: 10,
+    marginTop: 15,
+    alignItems: "center",
+  },
+  deleteBtnTitle: {
+    color: "white",
   },
 
   input: {
