@@ -48,23 +48,16 @@ function HomeTabs(){
 export default function App() {
 
   //const [loading, setLoading] = useState(true)
-  const [user,setUser] = useState(null)
+  //const [user,setUser] = useState(null)
   return (
     <NavigationContainer>
       <RootStack.Navigator>
-        {user ? (
-          <>
-          <RootStack.Screen name="Home" component={HomeTabs}/>
-          {/*<RootStack.Screen name="Login" component={Login}/>*/}
-          </>
-        ): (
-          <>
+        <>
           <RootStack.Screen name="Loading" component={Loading}/>
           <RootStack.Screen name="Login" component={Login}/>
           <RootStack.Screen name="Register" component={Register}/>
           <RootStack.Screen name="Home" component={HomeTabs}/>
-          </>
-        )}
+        </>
       </RootStack.Navigator>
     </NavigationContainer>
   );

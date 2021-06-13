@@ -27,13 +27,11 @@ export default function Login({navigation}) {
      });
     }
     //navigation.navigate("Home")
-    )
-    .then(
-      navigation.navigate('Loading')
-    )
-    .then(
-      navigation.navigate('Home')
-    )
+    ) // END OF THEN
+    // .then(
+    //   console.log("Login user uid: " + firebase.auth().currentUser.uid)
+    //  //navigation.navigate('Home')
+    // ) //END OF 2ND END
   }
 
   return (
