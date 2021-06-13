@@ -72,7 +72,7 @@ export default function Profile() {
   };
 
   const deleteUser = async () => {
-    await firebase.database().ref("/Accounts/-MbvBl1kkDbGNl6IR8nC").set(null);
+    await firebase.database().ref("/Accounts/-MbvDYD7bnjI92bRjlwv").set(null);
     alert("deleted user");
   };
 
